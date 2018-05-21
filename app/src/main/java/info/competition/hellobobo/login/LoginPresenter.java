@@ -1,22 +1,23 @@
 package info.competition.hellobobo.login;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
-
-import java.util.List;
+import android.view.inputmethod.InputMethodManager;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import es.dmoral.toasty.Toasty;
 
 public class LoginPresenter implements LoginContract.Presenter {
     private LoginContract.View mView;
     private BmobQuery<UserBean> mBmobQuery;
+    private Context mContext;
 
     public LoginPresenter(@NonNull LoginContract.View view) {
         mView = view;
+        mContext = (Context) view;
         mBmobQuery = new BmobQuery<>();
     }
 
@@ -29,13 +30,19 @@ public class LoginPresenter implements LoginContract.Presenter {
             @Override
             public void done(BmobUser bmobUser, BmobException e) {
                 if (e == null) {
+                    hideInput();
                     mView.showTip("欢迎" + userName + "使用Hello BoBo", true);
                     mView.showMap(userName);
                 } else {
-                    registered(userName, password);
+                    Toasty.error(mContext, "账号密码错误或账号未注册").show();
                 }
             }
         });
+    }
+
+    public void hideInput() {
+        InputMethodManager manager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(((LoginActivity) mContext).getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     @Override

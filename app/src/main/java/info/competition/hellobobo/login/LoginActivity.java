@@ -3,11 +3,12 @@ package info.competition.hellobobo.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import es.dmoral.toasty.Toasty;
 import info.competition.hellobobo.R;
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     private EditText etPassword;
     private Button btnLogin;
     private Button btnRegistered;
+    private ImageView ivBack;
 
     private LoginPresenter mLoginPresenter;
 
@@ -40,10 +42,12 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         etPassword = findViewById(R.id.et_password);
         btnLogin = findViewById(R.id.btn_login);
         btnRegistered = findViewById(R.id.btn_registered);
+        ivBack = findViewById(R.id.iv_back);
 
         etPassword.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         btnRegistered.setOnClickListener(this);
+        ivBack.setOnClickListener(this);
 
         mLoginPresenter = new LoginPresenter(this);
     }
@@ -51,11 +55,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public String getUserName() {
+        Log.i("getUserName", "getUserName: " + etAccount.getText().toString());
         return etAccount.getText().toString();
     }
 
     @Override
     public String getPassword() {
+        Log.i("getUserName", "getUserName: " + etPassword.getText().toString());
         return etPassword.getText().toString();
     }
 
@@ -89,6 +95,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 break;
             case R.id.btn_login:
                 mLoginPresenter.login(getUserName(), getPassword());
+                break;
+
+            case R.id.iv_back:
+                mLoginPresenter.hideInput();
+                finish();
                 break;
 
         }

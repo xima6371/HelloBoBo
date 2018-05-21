@@ -171,11 +171,10 @@ public class MapFragment extends Fragment implements View.OnClickListener, MapCo
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
             currentCity = aMapLocation.getCity();
-            Toasty.success(getActivity(), currentCity).show();
+            
             double latitude = aMapLocation.getLatitude();//获取纬度
             double longitude = aMapLocation.getLongitude();//获取经度
             currentLatLng = new LatLng(latitude, longitude);//定位到经纬度
-
 
             //判断marker是否初始化
             if (!isFirstFix) {

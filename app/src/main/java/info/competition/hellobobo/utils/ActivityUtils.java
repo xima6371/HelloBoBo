@@ -38,7 +38,7 @@ public class ActivityUtils {
     }
 
     public static boolean checkNull(String s) {
-        if (s == null && s.isEmpty())
+        if (s == null || s.isEmpty())
             return true;
 
         return false;

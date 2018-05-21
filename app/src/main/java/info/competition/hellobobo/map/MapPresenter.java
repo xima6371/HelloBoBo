@@ -10,7 +10,6 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.AMapUtils;
-import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.Circle;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.competition.hellobobo.R;
-import info.competition.hellobobo.utils.SensorEventHelper;
 
 public class MapPresenter implements MapContract.Presenter {
 
@@ -83,6 +81,8 @@ public class MapPresenter implements MapContract.Presenter {
         mLocationClient.setLocationListener((AMapLocationListener) mView);
         //定位参数
         AMapLocationClientOption mOption = new AMapLocationClientOption();
+        //设置单次定位
+        mOption.setOnceLocation(true);
         //设置为高精度定位模式
         mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //设置定位参数

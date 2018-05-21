@@ -33,8 +33,12 @@ public class ActivityUtils {
         checkNotNull(fragmentManager);
         checkNotNull(fragment);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(frameId, fragment);
-        transaction.commit();
+        if (!fragment.isAdded()) {
+            transaction.add(frameId, fragment);
+            transaction.commit();
+        } else {
+            return;
+        }
     }
 
     public static boolean checkNull(String s) {

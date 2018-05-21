@@ -171,7 +171,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, MapCo
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
             currentCity = aMapLocation.getCity();
-            
+
             double latitude = aMapLocation.getLatitude();//获取纬度
             double longitude = aMapLocation.getLongitude();//获取经度
             currentLatLng = new LatLng(latitude, longitude);//定位到经纬度
@@ -184,12 +184,14 @@ public class MapFragment extends Fragment implements View.OnClickListener, MapCo
                 addMarker();
 
                 mHelper.setCurrentMarker(locMarker);
-                mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 16));
+                mAMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17));
+
             } else {
                 mCircle.setCenter(currentLatLng);
                 mCircle.setRadius(aMapLocation.getAccuracy());
                 locMarker.setPosition(currentLatLng);
-                mAMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng));
+                mAMap.animateCamera(CameraUpdateFactory.changeLatLng(currentLatLng));
+
             }
 
         } else {
@@ -212,6 +214,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, MapCo
     }
 
     private void addCircle(AMapLocation aMapLocation) {
+
         CircleOptions options = new CircleOptions();
         options.strokeWidth(1f);
         options.fillColor(FILL_COLOR);
@@ -330,7 +333,6 @@ public class MapFragment extends Fragment implements View.OnClickListener, MapCo
         mHelper.unRegisterSensorListener();
         mMapView.onPause();
         deactivate();
-        isFirstFix = false;
     }
 
     @Override
